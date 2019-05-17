@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/wangy8961/learn-gRPC/greet/greetpb"
+	pb "github.com/wangy8961/grpc-go-tutorial/greet/greetpb"
 	"google.golang.org/grpc"
 )
 

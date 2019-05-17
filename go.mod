@@ -1,4 +1,4 @@
-module github.com/wangy8961/learn-gRPC
+module github.com/wangy8961/grpc-go-tutorial
 
 go 1.12
 
