@@ -23,7 +23,7 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn) // Once the gRPC channel is setup, we need a client stub to perform RPCs. We get this using the NewRouteGuideClient method provided in the pb package we generated from our .proto.
+	c := pb.NewGreeterClient(conn) // Once the gRPC channel is setup, we need a client stub to perform RPCs. We get this using the NewGreeterClient method provided in the pb package we generated from our .proto.
 
 	// Contact the server and print out its response.
 	name := defaultName
