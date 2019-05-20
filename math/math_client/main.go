@@ -53,6 +53,31 @@ func serverSideStreamingCall(c pb.MathClient) {
 	}
 }
 
+func clientSideStreamingCall(c pb.MathClient) {
+	fmt.Printf("--- gRPC Client-side Streaming RPC Call ---\n")
+	// Make client-side streaming RPC
+	stream, err := c.Average(context.Background())
+	if err != nil {
+		log.Fatalf("failed to call Average: %v", err)
+	}
+
+	// Send all requests to the server
+	nums := []int32{10, 8, 2, 36, 24, 16, 98}
+	for _, num := range nums {
+		if err := stream.Send(&pb.AverageRequest{Num: num}); err != nil {
+			log.Fatalf("failed to send streaming: %v", err)
+		}
+	}
+
+	// Read the response
+	resp, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("failed to CloseAndRecv: %v", err)
+	}
+	fmt.Printf("response:\n")
+	fmt.Printf(" - %v\n", resp.Result)
+}
+
 func main() {
 	addr := flag.String("addr", "localhost:50051", "the address to connect to")
 	flag.Parse()
@@ -70,6 +95,9 @@ func main() {
 	// 1. Unary RPC Call
 	// unaryCall(c)
 
-	// 2. Server-sid Streaming RPC Call
-	serverSideStreamingCall(c)
+	// 2. Server-side Streaming RPC Call
+	// serverSideStreamingCall(c)
+
+	// 3. Client-side Streaming RPC Call
+	clientSideStreamingCall(c)
 }

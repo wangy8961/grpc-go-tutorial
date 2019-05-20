@@ -11,6 +11,9 @@ service Math {
     
     // PrimeFactors is server-side streaming RPC
     rpc PrimeFactors(PrimeFactorsRequest) returns (stream PrimeFactorsResponse) {};
+
+    // Average is client-side streaming RPC
+    rpc Average(stream AverageRequest) returns (AverageResponse) {};
 }
 
 // The request message for Sum.
@@ -32,4 +35,14 @@ message PrimeFactorsRequest {
 // The response message for PrimeFactors.
 message PrimeFactorsResponse {
     int64 result = 1;
+}
+
+// The request message for Average.
+message AverageRequest {
+    int32 num = 1;
+}
+
+// The response message for Average.
+message AverageResponse {
+    double result = 1;
 }

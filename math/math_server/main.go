@@ -5,6 +5,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net"
 
@@ -40,6 +41,34 @@ func (s *server) PrimeFactors(in *pb.PrimeFactorsRequest, stream pb.Math_PrimeFa
 	}
 
 	return nil
+}
+
+// Average implements mathpb.MathServer
+func (s *server) Average(stream pb.Math_AverageServer) error {
+	fmt.Printf("--- gRPC Client-side Streaming RPC ---\n")
+
+	// Read requests and send responses
+	var sum int32
+	count := 0
+
+	for {
+		in, err := stream.Recv()
+
+		if err == io.EOF {
+			fmt.Printf("Receiving client streaming data completed\n")
+			average := float64(sum) / float64(count)
+			return stream.SendAndClose(&pb.AverageResponse{Result: average})
+		}
+
+		fmt.Printf("request received: %v\n", in)
+
+		if err != nil {
+			log.Fatalf("Error while receiving client streaming data: %v", err)
+		}
+
+		sum += in.Num
+		count++
+	}
 }
 
 func main() {
