@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package="mathpb";
+
+package math;
+
+// The math service definition.
+service Math {
+    // Sum is unary RPC.
+    rpc Sum(SumRequest) returns (SumResponse) {};
+}
+
+// The request message for Sum.
+message SumRequest {
+    int32 first_num = 1;
+    int32 second_num = 2;
+}
+
+// The response message for Sum.
+message SumResponse {
+    int32 result = 1;
+}
