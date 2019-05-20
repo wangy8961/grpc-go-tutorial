@@ -5,15 +5,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 
 	pb "github.com/wangy8961/grpc-go-tutorial/math/mathpb"
 	"google.golang.org/grpc"
-)
-
-const (
-	address     = "localhost:50051"
-	defaultName = "world"
 )
 
 func unaryCall(c pb.MathClient) {
@@ -32,6 +28,31 @@ func unaryCall(c pb.MathClient) {
 	fmt.Printf(" - %v\n", resp.Result)
 }
 
+func serverSideStreamingCall(c pb.MathClient) {
+	fmt.Printf("--- gRPC Server-side Streaming RPC Call ---\n")
+	// Make server-side streaming RPC
+	req := &pb.PrimeFactorsRequest{Num: 48}
+	stream, err := c.PrimeFactors(context.Background(), req)
+	if err != nil {
+		log.Fatalf("failed to call PrimeFactors: %v", err)
+	}
+
+	// Read all the responses
+	var rpcStatus error
+	fmt.Printf("response:\n")
+	for {
+		resp, err := stream.Recv()
+		if err != nil {
+			rpcStatus = err
+			break
+		}
+		fmt.Printf(" - %v\n", resp.Result)
+	}
+	if rpcStatus != io.EOF {
+		log.Fatalf("failed to finish server-side streaming: %v", rpcStatus)
+	}
+}
+
 func main() {
 	addr := flag.String("addr", "localhost:50051", "the address to connect to")
 	flag.Parse()
@@ -46,5 +67,9 @@ func main() {
 	c := pb.NewMathClient(conn) // Once the gRPC channel is setup, we need a client stub to perform RPCs. We get this using the NewMathClient method provided in the pb package we generated from our .proto.
 
 	// Contact the server and print out its response.
-	unaryCall(c)
+	// 1. Unary RPC Call
+	// unaryCall(c)
+
+	// 2. Server-sid Streaming RPC Call
+	serverSideStreamingCall(c)
 }

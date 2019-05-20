@@ -8,6 +8,9 @@ package math;
 service Math {
     // Sum is unary RPC.
     rpc Sum(SumRequest) returns (SumResponse) {};
+    
+    // PrimeFactors is server-side streaming RPC
+    rpc PrimeFactors(PrimeFactorsRequest) returns (stream PrimeFactorsResponse) {};
 }
 
 // The request message for Sum.
@@ -19,4 +22,14 @@ message SumRequest {
 // The response message for Sum.
 message SumResponse {
     int32 result = 1;
+}
+
+// The request message for PrimeFactors.
+message PrimeFactorsRequest {
+    int64 num = 1;
+}
+
+// The response message for PrimeFactors.
+message PrimeFactorsResponse {
+    int64 result = 1;
 }
