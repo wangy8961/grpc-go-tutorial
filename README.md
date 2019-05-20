@@ -8,6 +8,7 @@
 - [Go微服务实战｜第2章：gRPC Unary RPC](http://www.madmalls.com/blog/post/grpc-unary-rpc/)
 - [Go微服务实战｜第3章：gRPC Server-side Streaming RPC](http://www.madmalls.com/blog/post/grpc-server-streaming-rpc/)
 - [Go微服务实战｜第4章：gRPC Client-side Streaming RPC](http://www.madmalls.com/blog/post/grpc-client-streaming-rpc/)
+- [Go微服务实战｜第5章：gRPC Bidirectional Streaming RPC](http://www.madmalls.com/blog/post/grpc-bidirectional-streaming-rpc/)
 
 
 # 2. 使用

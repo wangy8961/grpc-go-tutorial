@@ -71,6 +71,35 @@ func (s *server) Average(stream pb.Math_AverageServer) error {
 	}
 }
 
+// Maximum implements mathpb.MathServer
+func (s *server) Maximum(stream pb.Math_MaximumServer) error {
+	fmt.Printf("--- gRPC Bidirectional Streaming RPC ---\n")
+
+	// Read requests and send responses
+	maximum := int32(0)
+
+	for {
+		in, err := stream.Recv()
+		if err == io.EOF {
+			fmt.Printf("Receiving client streaming data completed\n")
+			return nil
+		}
+		if err != nil {
+			log.Fatalf("Error while receiving client streaming data: %v", err)
+		}
+
+		num := in.Num
+		fmt.Printf("request received: %v\n", in)
+
+		if num > maximum {
+			maximum = num
+			if err := stream.Send(&pb.MaximumResponse{Result: maximum}); err != nil {
+				log.Fatalf("Error while sending streaming data to client: %v", err)
+			}
+		}
+	}
+}
+
 func main() {
 	port := flag.Int("port", 50051, "the port to serve on")
 	flag.Parse()
