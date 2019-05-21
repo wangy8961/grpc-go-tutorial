@@ -11,6 +11,7 @@
 - [Go微服务实战｜第5章：gRPC Bidirectional Streaming RPC](http://www.madmalls.com/blog/post/grpc-bidirectional-streaming-rpc/)
 - [Go微服务实战｜第6章：gRPC Error Handling](http://www.madmalls.com/blog/post/grpc-error-handling/)
 - [Go微服务实战｜第7章：gRPC Deadlines & Timeouts](http://www.madmalls.com/blog/post/grpc-deadline/)
+- [Go微服务实战｜第8章：gRPC Cancelling RPCs](http://www.madmalls.com/blog/post/grpc-cancel/)
 
 
 # 2. 使用
