@@ -4,11 +4,12 @@
 # 1. 教程
 
 - [Go微服务实战｜第0章：环境配置](http://www.madmalls.com/blog/post/grpc-setup-go-dependencies/)
-- [Go微服务实战｜第1章：gRPC简介](http://www.madmalls.com/blog/post/what-is-grpc/)
+- [Go微服务实战｜第1章：gRPC 简介](http://www.madmalls.com/blog/post/what-is-grpc/)
 - [Go微服务实战｜第2章：gRPC Unary RPC](http://www.madmalls.com/blog/post/grpc-unary-rpc/)
 - [Go微服务实战｜第3章：gRPC Server-side Streaming RPC](http://www.madmalls.com/blog/post/grpc-server-streaming-rpc/)
 - [Go微服务实战｜第4章：gRPC Client-side Streaming RPC](http://www.madmalls.com/blog/post/grpc-client-streaming-rpc/)
 - [Go微服务实战｜第5章：gRPC Bidirectional Streaming RPC](http://www.madmalls.com/blog/post/grpc-bidirectional-streaming-rpc/)
+- [Go微服务实战｜第6章：gRPC Error Handling](http://www.madmalls.com/blog/post/grpc-error-handling/)
 
 
 # 2. 使用
