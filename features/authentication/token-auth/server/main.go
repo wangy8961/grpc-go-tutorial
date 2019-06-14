@@ -7,11 +7,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strings"
 
 	pb "github.com/wangy8961/grpc-go-tutorial/features/echopb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -26,6 +28,33 @@ func (s *server) UnaryEcho(ctx context.Context, req *pb.EchoRequest) (*pb.EchoRe
 func (s *server) UnaryEcho(ctx context.Context, req *pb.EchoRequest) (*pb.EchoResponse, error) {
 	fmt.Printf("--- gRPC Unary RPC ---\n")
 	fmt.Printf("request received: %v\n", req)
+
+	// md 的值类似于: map[:authority:[192.168.40.123:50051] authorization:[Bearer some-secret-token] content-type:[application/grpc] user-agent:[grpc-go/1.20.1]]
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, status.Errorf(codes.InvalidArgument, "missing metadata")
+	}
+	// fmt.Printf("Type of 'metadata.MD' is %T, and its value is %v \n", md, md)
+
+	// 1. 判断是否存在 authorization 请求头
+	authorization, ok := md["authorization"]
+	if !ok {
+		return nil, status.Errorf(codes.Unauthenticated, `missing "Authorization" header`)
+	}
+	// fmt.Printf("Type of 'authorization' is %T, and its value is %v \n", authorization, authorization)
+
+	const prefix = "Bearer "
+
+	// 2. 如果存在 authorization 请求头的话，则 md["authorization"] 是一个 []string
+	if !strings.HasPrefix(authorization[0], prefix) {
+		return nil, status.Errorf(codes.Unauthenticated, `missing "Bearer " prefix in "Authorization" header`)
+	}
+
+	// 3. 验证 token 是否一致
+	if token := strings.TrimPrefix(authorization[0], prefix); token != "some-secret-token" {
+		return nil, status.Errorf(codes.Unauthenticated, "invalid token")
+	}
+
 	return &pb.EchoResponse{Message: req.GetMessage()}, nil
 }
 
@@ -57,14 +86,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to load certificates: %v", err)
 	}
-
-	/* 或者使用下面的方法获取 creds
-	cert, err := tls.LoadX509KeyPair(*certFile, *keyFile)
-	if err != nil {
-		log.Fatalf("failed to load key pair: %s", err)
-	}
-	creds := credentials.NewServerTLSFromCert(&cert)
-	*/
 
 	s := grpc.NewServer(grpc.Creds(creds)) // Create an instance of the gRPC server
 
