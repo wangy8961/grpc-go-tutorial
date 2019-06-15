@@ -13,6 +13,7 @@
 - [Go微服务实战｜第7章：gRPC Deadlines & Timeouts](http://www.madmalls.com/blog/post/grpc-deadline/)
 - [Go微服务实战｜第8章：gRPC Cancelling RPCs](http://www.madmalls.com/blog/post/grpc-cancel/)
 - [Go微服务实战｜第9章：gRPC TLS Secure](https://madmalls.com/blog/post/grpc-enable-tls/)
+- [Go微服务实战｜第10章：gRPC Authentication](https://madmalls.com/blog/post/grpc-authentication/)
 
 
 # 2. 使用
