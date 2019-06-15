@@ -7,27 +7,14 @@ import (
 	"fmt"
 	"log"
 
+	"golang.org/x/oauth2"
+	"google.golang.org/grpc/credentials/oauth"
+
 	"google.golang.org/grpc/credentials"
 
 	pb "github.com/wangy8961/grpc-go-tutorial/features/echopb"
 	"google.golang.org/grpc"
 )
-
-type tokenAuth struct {
-	token string
-}
-
-// Return value is mapped to request headers.
-func (t *tokenAuth) GetRequestMetadata(ctx context.Context, uri ...string) (map[string]string, error) {
-	return map[string]string{
-		"authorization": "Bearer " + t.token,
-	}, nil
-}
-
-// 是否使用 TLS 安全加密
-func (t *tokenAuth) RequireTransportSecurity() bool {
-	return true
-}
 
 func main() {
 	addr := flag.String("addr", "localhost:50051", "the address to connect to")
@@ -42,13 +29,12 @@ func main() {
 	opts := []grpc.DialOption{
 		// 1. TLS 认证
 		grpc.WithTransportCredentials(creds),
-		// 2. token 认证
-		grpc.WithPerRPCCredentials(&tokenAuth{
-			token: "some-secret-token",
-		}),
+		// 2. oauth2 acces token 认证
+		grpc.WithPerRPCCredentials(oauth.NewOauthAccess(&oauth2.Token{
+			AccessToken: "some-oauth2-secret-token",
+		})),
 	}
 
-	grpc.WithPerRPCCredentials(creds)
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, opts...) // To call service methods, we first need to create a gRPC channel to communicate with the server. We create this by passing the server address and port number to grpc.Dial()
 	if err != nil {
