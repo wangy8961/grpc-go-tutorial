@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+option go_package="userpb";
+
+package user;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+  info: {
+    title: "User service";
+    version: "1.0";
+    contact: {
+      name: "grpc-go-tutorial";
+      url: "https://github.com/wangy8961/grpc-go-tutorial";
+      email: "wangy8961@163.com";
+    };
+  };
+  schemes: HTTPS;
+  schemes: HTTP;
+  consumes: "application/json";
+  produces: "application/json";
+  responses: {
+    key: "404";
+    value: {
+      description: "Returned when the resource does not exist.";
+      schema: {
+        json_schema: {
+          type: STRING;
+        }
+      }
+    }
+  }
+};
+
+// User define a user
+message User {
+    string username = 1;
+    string password = 2;
+}
+
+// CreateRequest is the request for creating a user.
+message CreateRequest {
+    User user = 1;
+}
+
+// GetRequest is the request for getting a user.
+message GetRequest {
+    string username = 1;
+}
+
+// GetRequest is the response for getting a user.
+message GetResponse {
+    User user = 1;
+}
+
+// UserService is the user service.
+service UserService {
+    // Create a new user
+    rpc Create(CreateRequest) returns (google.protobuf.Empty) {
+        option (google.api.http) = {
+            post: "/api/v1/users"
+            body: "*"
+        };
+    }
+    // Get a specified user
+    rpc Get(GetRequest) returns (GetResponse) {
+        option (google.api.http) = {
+            get: "/api/v1/users/{username}"
+        };
+    }
+}
