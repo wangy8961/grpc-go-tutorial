@@ -15,6 +15,7 @@
 - [Go微服务实战｜第9章：gRPC TLS Secure](https://madmalls.com/blog/post/grpc-enable-tls/)
 - [Go微服务实战｜第10章：gRPC Authentication](https://madmalls.com/blog/post/grpc-authentication/)
 - [Go微服务实战｜第11章：gRPC Interceptors](https://madmalls.com/blog/post/grpc-interceptors/)
+- [Go微服务实战｜第12章：gRPC-gateway generate RESTful API](https://madmalls.com/blog/post/grpc-gateway-generate-restfull-api/)
 
 
 # 2. 使用
