@@ -61,8 +61,9 @@ func (s *server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, 
 		return nil, grpc.Errorf(codes.InvalidArgument, "username cannot be empty")
 	}
 
-	u, exists := s.users[req.Username]
-	if !exists {
+	u, ok := s.users[req.Username]
+	if !ok {
+		log.Println("--- User not found! ---")
 		return nil, grpc.Errorf(codes.NotFound, "user not found")
 	}
 
